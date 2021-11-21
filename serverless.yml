@@ -1,0 +1,288 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: yoyolunchbox-api
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '2'
+
+custom:
+  vpc:
+    securityGroupIds:
+      - sg-36cc262a
+    subnetIds:
+      - subnet-c30953e2
+      - subnet-788fd31e
+      - subnet-b2fc9c83
+      - subnet-f66d81ba
+      - subnet-ac92cbf3
+      - subnet-9ac8de94
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+  iam:
+    role: arn:aws:iam::321082332978:role/yoyo-lambda-s3-read-role
+
+plugins:
+  - serverless-offline
+
+functions:
+  createUser:
+    handler: resources/users.createUser
+    vpc: ${self:custom.vpc}
+
+  getUser:
+    handler: resources/users.getUser
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /user/{username}
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  updateUser:
+    handler: resources/users.updateUser
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /user
+          method: put
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  getUserOrders:
+    handler: resources/users.getUserOrders
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /user/orders/{username}/{page}/{status}
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+  
+  getUserTransactions:
+    handler: resources/users.getUserTransactions
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /user/transactions/{username}
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  createPaymentsOrder:
+    handler: resources/payments.createPaymentsOrder
+    events:
+      - http:
+          path: /payments/order
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  updateWalletBalance:
+    handler: resources/payments.updateWalletBalance
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /payments/user/wallet
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  getUserWalletBalance:
+    handler: resources/users.getUserWalletBalance
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /user/balance/{username}
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  getMenu:
+    handler: resources/menu.getMenu
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /menu
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  getFoodImage:
+    handler: resources/food.getFoodImage
+    events:
+      - http:
+          path: /food/image/{key}
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  placeOrder:
+    handler: resources/orders.placeOrder
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /orders
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+  
+  cancelOrder:
+    handler: resources/orders.cancelOrder
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /orders
+          method: delete
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+  
+  adminGetOrders:
+    handler: resources/orders.getOrders
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/orders/{date}
+          cors: true
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+  
+  adminUpdateOrderStatus:
+    handler: resources/orders.updateOrderStatus
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/orders/update/{orderId}/{status}
+          cors: true
+          method: put
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+  
+  adminGetMenu:
+    handler: resources/menu.getMenu
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/menu
+          cors: true
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+  
+  adminGetTransactions:
+    handler: resources/payments.getTransactions
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/transactions
+          cors: true
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+  
+  adminAddMenu:
+    handler: resources/menu.addMenu
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/menu/add
+          cors: true
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminEditMenu:
+    handler: resources/menu.editMenu
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/menu/edit
+          cors: true
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminDeleteMenu:
+    handler: resources/menu.deleteMenu
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/menu/{id}
+          cors: true
+          method: delete
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminGetUser:
+    handler: resources/users.getUser
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/user/{username}
+          cors: true
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminUpdateUser:
+    handler: resources/users.adminUpdateUser
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/user/{username}
+          cors: true
+          method: put
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminAddUserTransaction:
+    handler: resources/users.addTransaction
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/user/transaction
+          cors: true
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminExportOrdersToShipDay:
+    handler: resources/orders.exportToShipDay
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/orders/export
+          cors: true
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminGetAllUsers:
+    handler: resources/users.getAllUsers
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/users
+          cors: true
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
