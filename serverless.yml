@@ -123,8 +123,6 @@ functions:
       - http:
           path: /menu
           method: post
-          authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
 
   getFoodImage:
     handler: resources/food.getFoodImage

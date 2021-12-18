@@ -129,8 +129,8 @@ module.exports.getUserOrders = async (event) => {
     INNER JOIN menu ON orders.menu_id = menu.id
     WHERE orders.username = '${username}'
       AND orders.status = '${status}'
-    ORDER BY menu.date, menu.type ASC
-    LIMIT 10
+    ORDER BY menu.date DESC
+    LIMIT 25
     OFFSET ${page};
   `
 
