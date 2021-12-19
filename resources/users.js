@@ -7,11 +7,22 @@ module.exports.createUser = async (event) => {
   const userAttributes = event.request.userAttributes
   const query = `
     INSERT INTO
-    users (username, name, phone)
-    VALUES ('${username}', '${userAttributes.name}', ${userAttributes.phone_number})
+    users (username, name, phone, balance)
+    VALUES ('${username}', '${userAttributes.name}', ${userAttributes.phone_number}, 100)
+  `
+
+  const addPromotionalBalance = `
+    INSERT INTO
+    transactions (username, amount, description)
+    VALUES (
+      '${username}',
+      100,
+      'New user promotional balance'
+    )
   `
   try {
     await client.query(query)
+    await client.query(addPromotionalBalance)
   } catch(e) {
     console.error(e.message)
   }
