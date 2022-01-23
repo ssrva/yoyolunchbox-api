@@ -142,7 +142,7 @@ functions:
           method: post
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
-  
+
   cancelOrder:
     handler: resources/orders.cancelOrder
     vpc: ${self:custom.vpc}
@@ -152,7 +152,7 @@ functions:
           method: delete
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
-  
+
   adminGetOrders:
     handler: resources/orders.getOrders
     vpc: ${self:custom.vpc}
@@ -239,7 +239,10 @@ functions:
           cors: true
           method: get
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+            type: COGNITO_USER_POOLS
+            scopes:
+              - https://baqg6112pd.execute-api.us-east-1.amazonaws.com/all.all
+            authorizerId: lmomtp
 
   adminUpdateUser:
     handler: resources/users.adminUpdateUser
@@ -263,9 +266,37 @@ functions:
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
 
+  adminUpdateOrder:
+    handler: resources/orders.updateOrder
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/orders
+          cors: true
+          method: patch
+          authorizer:
+            type: COGNITO_USER_POOLS
+            scopes:
+              - https://baqg6112pd.execute-api.us-east-1.amazonaws.com/all.all
+            authorizerId: lmomtp
+
+  adminGetOrdersToExport:
+    handler: resources/orders.getOrdersToExport
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/orders_to_export
+          cors: true
+          method: post
+          authorizer:
+            type: COGNITO_USER_POOLS
+            scopes:
+              - https://baqg6112pd.execute-api.us-east-1.amazonaws.com/all.all
+            authorizerId: lmomtp
+
   adminExportOrdersToShipDay:
     handler: resources/orders.exportToShipDay
-    vpc: ${self:custom.vpc}
+    timeout: 300 # in seconds
     events:
       - http:
           path: /admin/orders/export

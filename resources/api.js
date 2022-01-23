@@ -1,4 +1,7 @@
 const axios = require('axios')
+const host = "https://baqg6112pd.execute-api.us-east-1.amazonaws.com/production"
+// const host = "http://localhost:3000/dev"
+var AWS = require('aws-sdk')
 
 module.exports.exportOrder = async (order) => {
   const headers = {
@@ -23,8 +26,63 @@ module.exports.exportOrder = async (order) => {
     "deliveryInstruction": order.remarks,
     "expectedDeliveryDate": order.date,
   }
-  await axios.post("https://api.shipday.com/orders", body, {
+  const result = await axios.post("https://api.shipday.com/orders", body, {
     headers
   })
-  return order.id
+  return result.data
+}
+
+module.exports.getUser = async (accessToken, username) => {
+  const response = await axios.get(`${host}/admin/user/${username}`, {
+    headers: {
+      "Authorization": accessToken
+    }
+  })
+  return response.data
+}
+
+module.exports.updateOrder = async (accessToken, data) => {
+  const response = await axios.patch(`${host}/admin/orders`, data, {
+    headers: {
+      "Authorization": accessToken
+    }
+  })
+  return response.data
+}
+
+module.exports.getOrdersToExportApi = async (accessToken, data) => {
+  const response = await axios.post(`${host}/admin/orders_to_export`, data, {
+    headers: {
+      "Authorization": accessToken
+    }
+  })
+  return response.data
+}
+
+module.exports.getAccessToken = async () => {
+  const params = {
+    "grant_type": "client_credentials",
+    "scope": "https://baqg6112pd.execute-api.us-east-1.amazonaws.com/all.all"
+  }
+  const data = Object.keys(params)
+    .map((key) => `${key}=${encodeURIComponent(params[key])}`)
+    .join('&')
+  
+  const serviceAccountCredential = await getServiceAccountCredential()
+  const response = await axios.post("https://yoyolunchbox.auth.us-east-1.amazoncognito.com/oauth2/token",
+    data , {
+      headers: {
+        "Authorization": `Basic ${serviceAccountCredential}`,
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
+  return response.data.access_token
+}
+
+getServiceAccountCredential = async () => {
+  const client = new AWS.SecretsManager({
+    region: "us-east-1"
+  });
+  const secret = await client.getSecretValue({SecretId: "service_account_credential"}).promise();
+  return JSON.parse(secret.SecretString).client_id_secret_base64;
 }

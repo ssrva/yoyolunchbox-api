@@ -1,5 +1,6 @@
 const { siloDbClient, dbClient } = require("./database-client")
-const { exportOrder } = require("./api")
+const { exportOrder, updateOrder, getOrdersToExportApi, getUser, getAccessToken } = require("./api")
+const axios = require('axios')
 
 const client = dbClient()
 
@@ -88,11 +89,26 @@ module.exports.cancelOrder = async (event) => {
     ) + users.balance
     WHERE username = '${username}'
   `
+  const addTransactionQuery = `
+    INSERT INTO
+    transactions (username, amount, description)
+    VALUES (
+      '${username}',
+      (
+        SELECT menu.price * orders.quantity
+        FROM orders
+        INNER JOIN menu ON menu.id = orders.menu_id
+        WHERE orders.id = ${order_id}
+      ),
+      'Refund for cancelling order ${order_id}'
+    )
+  `
 
   try {
     await client.query("BEGIN")
     await client.query(cancelOrderQuery)
     await client.query(updateBalanceQuery)
+    await client.query(addTransactionQuery)
     await client.query("COMMIT")
     await client.end()
     return {
@@ -182,66 +198,25 @@ module.exports.updateOrderStatus = async (event) => {
   }
 }
 
-module.exports.exportToShipDay = async (event) => {
-  const { date, type } = JSON.parse(event.body)
-  const getOrdersQuery = `
-    SELECT orders.id,
-           orders.cost,
-           orders.remarks,
-           users.name,
-           users.phone,
-           users.address,
-           menu.date,
-           users.coordinates
-    FROM orders
-    INNER JOIN menu ON menu.id = orders.menu_id
-    INNER JOIN users ON users.username = orders.username
-    WHERE menu.date = '${date}'
-    AND menu.type='${type}'
-    AND orders.exported = false;
+module.exports.updateOrder = async (event) => {
+  const { id, exported, shipday_id } = JSON.parse(event.body)
+  const updateOrdersQuery = `
+    UPDATE orders SET
+    exported = ${exported},
+    shipday_id = ${parseInt(shipday_id)}
+    WHERE id = ${id}
   `
   try {
-    const ordersResponse = await client.query(getOrdersQuery)
-    const orders = ordersResponse.rows
-    const successfulOrders = []
-    const exportPromises = []
-    orders.forEach(order => {
-      exportPromises.push(exportOrder(order))
-    })
-    await Promise.all(exportPromises)
-      .then((value) => {
-        successfulOrders.push(value)
-      })
-      .catch((e) => {
-        console.log(e.message)
-      })
-    
-    const updateExportedFieldQuery = `
-      UPDATE orders
-      SET exported = true
-      WHERE id = ANY('{${successfulOrders.join(",")}}')
-    `
-    await client.query(updateExportedFieldQuery)
-
-    if(successfulOrders[0].length == orders.length) {
-      return {
-        statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: "Updated successfully"
-      }
-    } else {
-      return {
-        statusCode: 400,
-        headers: {
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: "Failed pushing few orders, please retry."
-      }
+    await client.query(updateOrdersQuery)
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: "Update successful"
     }
-  } catch(e) {
-    console.error(e.message)
+  } catch (e) {
+    console.log(e)
     return {
       statusCode: 400,
       headers: {
@@ -250,4 +225,124 @@ module.exports.exportToShipDay = async (event) => {
       body: "Query failed"
     }
   }
+}
+
+module.exports.getOrdersToExport = async (event) => {
+  const { date, type } = JSON.parse(event.body)
+  const ordersFetchQuery = `
+    SELECT orders.id,
+           orders.cost,
+           orders.remarks,
+           orders.username,
+           orders.status,
+           menu.date
+    FROM orders
+    INNER JOIN menu ON menu.id = orders.menu_id
+    WHERE date = '${date}'
+    AND type = '${type}'
+    AND status != 'cancelled'
+    AND exported = false
+  `
+  try {
+    const result = await client.query(ordersFetchQuery)
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify(result.rows)
+    }
+  } catch (e) {
+    console.log(e)
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: "Query failed"
+    }
+  }
+}
+
+module.exports.exportToShipDay = async (event) => {
+  const { date, type } = JSON.parse(event.body)
+  const accessToken = await getAccessToken()
+  const orders = await getOrdersToExportApi(accessToken, { date, type })
+  console.log(orders)
+  const tasks = []
+  orders.forEach(order => {
+    tasks.push(exportOrderHelper(accessToken, order))
+  })
+
+  let failed = false
+  const response = []
+  if (tasks.length > 0) {
+    await Promise.all(tasks)
+      .then((result) => {
+        result.forEach(res => {
+          if (!res.status) {
+            failed = true
+          }
+          response.push(res)
+        })
+      })
+      .catch(error => {
+        console.error("Error resolving promise")
+        console.error(error)
+        failed = true
+      })
+  }
+
+  if (failed) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(response),
+    }
+  }
+  return {
+    statusCode: 200,
+    body: JSON.stringify(response)
+  }
+}
+
+exportOrderHelper = async (accessToken, order) => {
+  let result = {}
+  let exportDetails = {}
+  try {
+    if (order.status != 'cancelled' && !order.exported) {
+      const user = await getUser(accessToken, order.username)
+      console.log("User Details")
+      console.log(user)
+      exportDetails = {
+        id: order.id,
+        name: user.name,
+        address: user.address,
+        phone: user.phone,
+        coordinates: user.coordinates,
+        cost: order.cost,
+        remarks: order.remarks,
+        date: order.date
+      }
+      console.log("Exporting")
+      console.log(exportDetails)
+      result = await exportOrder(exportDetails)
+      if (result.orderId) {
+        const updateOrderDetails = {
+          exported: true,
+          id: order.id,
+          shipday_id: result.orderId
+        }
+        await updateOrder(accessToken, updateOrderDetails)
+      } else {
+        throw new Error("Failed to export to shipday " + JSON.stringify(result))
+      }
+    } else {
+      console.log(`Order ${id} either cancelled or already exported`)
+    }
+  } catch (e) {
+    console.error("Failed to export order")
+    console.error(e)
+    return { status: false, exportDetails, result }
+  }
+  return { status: true, exportDetails, result }
 }
