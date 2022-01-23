@@ -167,18 +167,32 @@ module.exports.getUserWalletBalance = async (event) => {
     FROM users
     WHERE username = '${username}'
   `
-
   try {
     const res = await client.query(query)
-    return {
-      statusCode: 200,
-      body: JSON.stringify(res.rows[0])
+    if (res.rows.length == 0) {
+      return {
+        statusCode: 404,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
+      }
+    } else {
+      return {
+        statusCode: 200,
+        body: JSON.stringify(res.rows[0]),
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
+      }
     }
   } catch(e) {
     console.error(e.message)
     return {
       statusCode: 400,
-      body: e.message
+      body: e.message,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
     }
   }
 }

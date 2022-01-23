@@ -163,6 +163,16 @@ functions:
           method: get
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminPlaceOrder:
+    handler: resources/orders.placeOrder
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/orders
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
   
   adminUpdateOrderStatus:
     handler: resources/orders.updateOrderStatus
@@ -230,6 +240,17 @@ functions:
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
 
+  adminGetUserWalletBalance:
+    handler: resources/users.getUserWalletBalance
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/user/balance/{username}
+          cors: true
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
   adminGetUser:
     handler: resources/users.getUser
     vpc: ${self:custom.vpc}
@@ -279,6 +300,16 @@ functions:
             scopes:
               - https://baqg6112pd.execute-api.us-east-1.amazonaws.com/all.all
             authorizerId: lmomtp
+
+  adminCancelOrder:
+    handler: resources/orders.cancelOrder
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/orders
+          method: delete
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
 
   adminGetOrdersToExport:
     handler: resources/orders.getOrdersToExport

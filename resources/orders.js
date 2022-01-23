@@ -8,9 +8,10 @@ module.exports.placeOrder = async (event) => {
   const client = siloDbClient();
   // each order is expected to have the fields
   // quantity, menu_id.
-  const { username, charges, orders } = JSON.parse(event.body)
+  const { username, charges, orders, admin_placed } = JSON.parse(event.body)
 
   const usernames = Array(orders.length).fill(`'${username}'`)
+  const adminPlacedOrder = Array(orders.length).fill(admin_placed ? admin_placed : false)
   const quantities = orders.map(order => order.quantity)
   const menu_ids = orders.map(order => order.menu_id)
   const order_costs = orders.map(order => order.amount)
@@ -24,13 +25,14 @@ module.exports.placeOrder = async (event) => {
 
   const placeOrderQuery = `
     INSERT INTO
-    orders (username, quantity, menu_id, cost, remarks)
+    orders (username, quantity, menu_id, cost, remarks, admin_placed)
     VALUES (
       UNNEST(ARRAY[${usernames.join(",")}]),
       UNNEST(ARRAY[${quantities.join(",")}]),
       UNNEST(ARRAY[${menu_ids.join(",")}]),
       UNNEST(ARRAY[${order_costs.join(",")}]),
-      UNNEST(ARRAY[${remarks.join(",")}])
+      UNNEST(ARRAY[${remarks.join(",")}]),
+      UNNEST(ARRAY[${adminPlacedOrder.join(",")}])
     )
     RETURNING id
   `
@@ -58,7 +60,10 @@ module.exports.placeOrder = async (event) => {
     await client.end()
     return {
       statusCode: 200,
-      body: "Order placed successfully"
+      body: "Order placed successfully",
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
     }
   } catch(e) {
     console.error(e.message)
@@ -66,7 +71,10 @@ module.exports.placeOrder = async (event) => {
     await client.end()
     return {
       statusCode: 400,
-      body: e.message
+      body: e.message,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
     }
   }
 }
@@ -113,7 +121,11 @@ module.exports.cancelOrder = async (event) => {
     await client.end()
     return {
       statusCode: 200,
-      body: "Order cancelled successfully"
+      body: "Order cancelled successfully",
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'DELETE'
+      }
     }
   } catch(e) {
     console.error(e.message)
@@ -121,7 +133,11 @@ module.exports.cancelOrder = async (event) => {
     await client.end()
     return {
       statusCode: 400,
-      body: e.message
+      body: e.message,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'DELETE'
+      }
     }
   }
 }
