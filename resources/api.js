@@ -10,7 +10,7 @@ module.exports.exportOrder = async (order) => {
   }
   const body = {
     "orderNumber": order.id,
-    "customerName": order.name,
+    "customerName": `${order.customer_id} - ${order.name}`,
     "customerAddress": order.address,
     "customerEmail": "dummy@yoyolunchbox.com",
     "customerPhoneNumber": order.phone,

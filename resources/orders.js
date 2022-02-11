@@ -331,6 +331,7 @@ exportOrderHelper = async (accessToken, order) => {
       console.log(user)
       exportDetails = {
         id: order.id,
+        customer_id: user.id,
         name: user.name,
         address: user.address,
         phone: user.phone,

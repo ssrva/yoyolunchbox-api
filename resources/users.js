@@ -121,6 +121,28 @@ module.exports.updateUser = async (event) => {
   }
 }
 
+module.exports.updateMealPreference = async (event) => {
+  const { username, meal_preference } = JSON.parse(event.body)
+  const query = `
+    UPDATE users
+    SET meal_preference = '${meal_preference}'
+    WHERE username = '${username}'
+  `
+  try {
+    await client.query(query)
+    return {
+      statusCode: 200,
+      body: "Updated successfully"
+    }
+  } catch(e) {
+    console.error(e.message)
+    return {
+      statusCode: 400,
+      body: e.message
+    }
+  }
+}
+
 module.exports.getUserOrders = async (event) => {
   const status = event.pathParameters.status
   const username = event.pathParameters.username

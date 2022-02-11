@@ -105,6 +105,30 @@
               "LogGroupName": "/aws/lambda/yoyolunchbox-api-production-updateUser"
             }
           },
+          "UpdateMealPreferenceLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/yoyolunchbox-api-production-updateMealPreference"
+            }
+          },
+          "GetAddressLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/yoyolunchbox-api-production-getAddress"
+            }
+          },
+          "AddAddressLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/yoyolunchbox-api-production-addAddress"
+            }
+          },
+          "UpdateAddressLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/yoyolunchbox-api-production-updateAddress"
+            }
+          },
           "GetUserOrdersLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
@@ -268,7 +292,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.createUser",
               "Runtime": "nodejs12.x",
@@ -301,7 +325,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.getUser",
               "Runtime": "nodejs12.x",
@@ -334,7 +358,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.updateUser",
               "Runtime": "nodejs12.x",
@@ -360,6 +384,138 @@
               "UpdateUserLogGroup"
             ]
           },
+          "UpdateMealPreferenceLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
+              },
+              "Handler": "resources/users.updateMealPreference",
+              "Runtime": "nodejs12.x",
+              "FunctionName": "yoyolunchbox-api-production-updateMealPreference",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": "arn:aws:iam::321082332978:role/yoyo-lambda-s3-read-role",
+              "VpcConfig": {
+                "SecurityGroupIds": [
+                  "sg-36cc262a"
+                ],
+                "SubnetIds": [
+                  "subnet-c30953e2",
+                  "subnet-788fd31e",
+                  "subnet-b2fc9c83",
+                  "subnet-f66d81ba",
+                  "subnet-ac92cbf3",
+                  "subnet-9ac8de94"
+                ]
+              }
+            },
+            "DependsOn": [
+              "UpdateMealPreferenceLogGroup"
+            ]
+          },
+          "GetAddressLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
+              },
+              "Handler": "resources/address.get",
+              "Runtime": "nodejs12.x",
+              "FunctionName": "yoyolunchbox-api-production-getAddress",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": "arn:aws:iam::321082332978:role/yoyo-lambda-s3-read-role",
+              "VpcConfig": {
+                "SecurityGroupIds": [
+                  "sg-36cc262a"
+                ],
+                "SubnetIds": [
+                  "subnet-c30953e2",
+                  "subnet-788fd31e",
+                  "subnet-b2fc9c83",
+                  "subnet-f66d81ba",
+                  "subnet-ac92cbf3",
+                  "subnet-9ac8de94"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetAddressLogGroup"
+            ]
+          },
+          "AddAddressLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
+              },
+              "Handler": "resources/address.add",
+              "Runtime": "nodejs12.x",
+              "FunctionName": "yoyolunchbox-api-production-addAddress",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": "arn:aws:iam::321082332978:role/yoyo-lambda-s3-read-role",
+              "VpcConfig": {
+                "SecurityGroupIds": [
+                  "sg-36cc262a"
+                ],
+                "SubnetIds": [
+                  "subnet-c30953e2",
+                  "subnet-788fd31e",
+                  "subnet-b2fc9c83",
+                  "subnet-f66d81ba",
+                  "subnet-ac92cbf3",
+                  "subnet-9ac8de94"
+                ]
+              }
+            },
+            "DependsOn": [
+              "AddAddressLogGroup"
+            ]
+          },
+          "UpdateAddressLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
+              },
+              "Handler": "resources/address.update",
+              "Runtime": "nodejs12.x",
+              "FunctionName": "yoyolunchbox-api-production-updateAddress",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": "arn:aws:iam::321082332978:role/yoyo-lambda-s3-read-role",
+              "VpcConfig": {
+                "SecurityGroupIds": [
+                  "sg-36cc262a"
+                ],
+                "SubnetIds": [
+                  "subnet-c30953e2",
+                  "subnet-788fd31e",
+                  "subnet-b2fc9c83",
+                  "subnet-f66d81ba",
+                  "subnet-ac92cbf3",
+                  "subnet-9ac8de94"
+                ]
+              }
+            },
+            "DependsOn": [
+              "UpdateAddressLogGroup"
+            ]
+          },
           "GetUserOrdersLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -367,7 +523,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.getUserOrders",
               "Runtime": "nodejs12.x",
@@ -400,7 +556,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.getUserTransactions",
               "Runtime": "nodejs12.x",
@@ -433,7 +589,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/payments.createPaymentsOrder",
               "Runtime": "nodejs12.x",
@@ -453,7 +609,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/payments.updateWalletBalance",
               "Runtime": "nodejs12.x",
@@ -486,7 +642,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.getUserWalletBalance",
               "Runtime": "nodejs12.x",
@@ -519,7 +675,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/menu.getMenu",
               "Runtime": "nodejs12.x",
@@ -552,7 +708,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/food.getFoodImage",
               "Runtime": "nodejs12.x",
@@ -572,7 +728,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/orders.placeOrder",
               "Runtime": "nodejs12.x",
@@ -605,7 +761,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/orders.cancelOrder",
               "Runtime": "nodejs12.x",
@@ -638,7 +794,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/orders.getOrders",
               "Runtime": "nodejs12.x",
@@ -671,7 +827,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/orders.placeOrder",
               "Runtime": "nodejs12.x",
@@ -704,7 +860,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/orders.updateOrderStatus",
               "Runtime": "nodejs12.x",
@@ -737,7 +893,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/menu.getMenu",
               "Runtime": "nodejs12.x",
@@ -770,7 +926,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/payments.getTransactions",
               "Runtime": "nodejs12.x",
@@ -803,7 +959,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/menu.addMenu",
               "Runtime": "nodejs12.x",
@@ -836,7 +992,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/menu.editMenu",
               "Runtime": "nodejs12.x",
@@ -869,7 +1025,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/menu.deleteMenu",
               "Runtime": "nodejs12.x",
@@ -902,7 +1058,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.getUserWalletBalance",
               "Runtime": "nodejs12.x",
@@ -935,7 +1091,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.getUser",
               "Runtime": "nodejs12.x",
@@ -968,7 +1124,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.adminUpdateUser",
               "Runtime": "nodejs12.x",
@@ -1001,7 +1157,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.addTransaction",
               "Runtime": "nodejs12.x",
@@ -1034,7 +1190,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/orders.updateOrder",
               "Runtime": "nodejs12.x",
@@ -1067,7 +1223,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/orders.cancelOrder",
               "Runtime": "nodejs12.x",
@@ -1100,7 +1256,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/orders.getOrdersToExport",
               "Runtime": "nodejs12.x",
@@ -1133,7 +1289,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/orders.exportToShipDay",
               "Runtime": "nodejs12.x",
@@ -1153,7 +1309,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z/yoyolunchbox-api.zip"
+                "S3Key": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z/yoyolunchbox-api.zip"
               },
               "Handler": "resources/users.getAllUsers",
               "Runtime": "nodejs12.x",
@@ -1179,294 +1335,334 @@
               "AdminGetAllUsersLogGroup"
             ]
           },
-          "CreateUserLambdaVersion5Me7l8Q5FRUtE4bPHeDDIe4gG9ezXMK03X9HZum2J5E": {
+          "CreateUserLambdaVersion03m7RPBHyWDD2U7o7wNS1nZ01AxD25cSSt0H1fzKeQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateUserLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "GetUserLambdaVersion2HgXOxnSEY2kqIJ1hcQdBhzu65cPQRDEEMCEZMUzRY": {
+          "GetUserLambdaVersionDN69l5hcwFx0otjl46TqPkabD952dIokRCrIN6xTE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetUserLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "UpdateUserLambdaVersionKInAIIBicc4sbRAtjLRZD75nX2cLhY7EUoblpyn0CVI": {
+          "UpdateUserLambdaVersion9SzuaqyOW9H7aTzeXbsfjG1ogyVsXwTemYwxAtPWkc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UpdateUserLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "GetUserOrdersLambdaVersions66QbM5aN1MahK2eX0vQD1SJ5TfRSjT6dbwE4rGY6Zo": {
+          "UpdateMealPreferenceLambdaVersionPQc3o6TB3a4MVW7rB33KmAOw1qBEOUZjmz5OrQaFJbQ": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "UpdateMealPreferenceLambdaFunction"
+              },
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
+            }
+          },
+          "GetAddressLambdaVersionHtO24wi8hQjVU8ZKutP1aYkJ6GmwxhQ7WzYizOrZcUU": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetAddressLambdaFunction"
+              },
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
+            }
+          },
+          "AddAddressLambdaVersion9eRDijSRrsWfSKKvK9bJbQNjnWPcSOeXHoIRhprI": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AddAddressLambdaFunction"
+              },
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
+            }
+          },
+          "UpdateAddressLambdaVersionuBrl80mimV2wot2HwLRlgLA2upxyrvM8I7usobL3kQ": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "UpdateAddressLambdaFunction"
+              },
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
+            }
+          },
+          "GetUserOrdersLambdaVersionHEjJSf4b3JNeyEIErW49eCqqoSuLSo0wScaEewJCUF0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetUserOrdersLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "GetUserTransactionsLambdaVersion75GYkalStdsftNEkczPFJ84q0GhhKW0r5zOgULNS0I": {
+          "GetUserTransactionsLambdaVersionexnQQqPyTwDN0mIVhHRYtGbZnFsUMD1EPCgDhP5M": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetUserTransactionsLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "CreatePaymentsOrderLambdaVersionZPnPAr6ozKFczVqrfT6dq05hTZiEb1ltzUBZ2raeRk": {
+          "CreatePaymentsOrderLambdaVersion7RVFFD0A0zwmYs4IcId1kmJD3o8iU7h814gsEWRg48": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreatePaymentsOrderLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "UpdateWalletBalanceLambdaVersionIH5UuPsWzEyWpFSjYp17uYkP4RUlkCq7FUXPTRPZM": {
+          "UpdateWalletBalanceLambdaVersionxlFH6fuBSIG2GjRFebSy9WFutJBGZWuGmy1qpqCx7I": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UpdateWalletBalanceLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "GetUserWalletBalanceLambdaVersionSy7LyWzwTr7ZadrvuEPPfcfot2UGUCBfnXg2lCqt8WM": {
+          "GetUserWalletBalanceLambdaVersionhnkvCsP0wotxJJcWfNzWppAVxyzApR4zQ3zwO4xuGho": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetUserWalletBalanceLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "GetMenuLambdaVersionmnq107fPmghzcy5xnIWojSs68seYPdFCB7bkZeMY": {
+          "GetMenuLambdaVersionsMgUFm4AaMXNvL47A2XhrpCq9iBRqf1D6BpdiE9WSE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetMenuLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "GetFoodImageLambdaVersionRmBcXhY7hLIP5mnhQnJdJDGq3Fb23uQ4UTAETMILR4o": {
+          "GetFoodImageLambdaVersiond736bxZpcNlv04Ro7L7qjGFtZimvCagMDV55H9IV59I": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetFoodImageLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "PlaceOrderLambdaVersionQzOvaCTBVvOXF9kqZnep2E7Bqv3IuIsUErxAbaTJeQk": {
+          "PlaceOrderLambdaVersionet0qHtmlhKkZ4QN36oAMz3OvfvZ2L6UOh7s4LtBWk": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PlaceOrderLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "CancelOrderLambdaVersionlDgTTswPgRkM97XiAP0ijAsm2ATkIK81fgd62cGDo": {
+          "CancelOrderLambdaVersionLHYNtfnPgMu7x7eucnVPPTS779uELOyR51VGyMNQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CancelOrderLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminGetOrdersLambdaVersionjQFuJ3da1wOvs61fySYx3olQw2tSJxg4x33JP5VbQQ": {
+          "AdminGetOrdersLambdaVersionTeoyJlJ0PSzjt0koBPTFarhCd8yXNAEkMk83qPiSE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminGetOrdersLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminPlaceOrderLambdaVersiond1Jft4Q1g5uGJgJCRHQf0b5p35CmMObTz3VDt1bxfi4": {
+          "AdminPlaceOrderLambdaVersioniQcJZjCDMmzawlGsh11m2ZZpQMRHx9DfZuHZaYFug": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminPlaceOrderLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminUpdateOrderStatusLambdaVersionjDxgxyOP26BDAxlamYzU389uJ6UOSYEQDpASQ0a44c": {
+          "AdminUpdateOrderStatusLambdaVersionpQrQ3kTh7A1RoR2K1QRiBZBPFcPicqnCXjfUbH5vg": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminUpdateOrderStatusLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminGetMenuLambdaVersion5eNl0xGr7ax8BTKbH4t0F8ShWPiBxcjuvlga9IA3Q": {
+          "AdminGetMenuLambdaVersionZdaw0HU2g7Hz4ZY7QVAnORS8JBz3r3sfxBH2IipX1GA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminGetMenuLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminGetTransactionsLambdaVersionWpMLpi6LVCZXW8ziI2Ok3LhDDcxxOMxalc0YZ5jlLQ": {
+          "AdminGetTransactionsLambdaVersionw2wOQQ1kk7VxBtLZeSeNWxMRl20bMpi69ha1ffgVnw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminGetTransactionsLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminAddMenuLambdaVersion4SrmQQoDRe4Myn17Xn9IDrjsotmMIInQ2wSfKBXQ": {
+          "AdminAddMenuLambdaVersion6M6joDKXrRzpfUn6juP8ufsBqDpv7TD7IIJlZEiR3c": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminAddMenuLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminEditMenuLambdaVersionzRBV3jj38PLr8WZ7NJKC4WE86xlPwF1zc3MXJjRpag": {
+          "AdminEditMenuLambdaVersion2Axm0v38ukW5WiYraO3F6GNcNDjX1JElxfuHCTOynPI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminEditMenuLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminDeleteMenuLambdaVersion6vnsNxzzxoKvAJEKZhwG1kZpm1whqR3FElafuj6Ls": {
+          "AdminDeleteMenuLambdaVersionCO3H36dUB28SzZ19bjSBWshsFLNTZsVsls5JWVnqA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminDeleteMenuLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminGetUserWalletBalanceLambdaVersionelAn7yl1CFjv0vN4i3ZnRRMTa4uX6yxiwzOaLXxa8M": {
+          "AdminGetUserWalletBalanceLambdaVersionqBxm8VVPDS9Urj5q2o8W5tZmiydE0BgrKBmfGpI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminGetUserWalletBalanceLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminGetUserLambdaVersionuQnV16rDtJJ1QUPdDCZoR5bc3AE9BR2E16yPMTatRM8": {
+          "AdminGetUserLambdaVersion4RPU42c1t7UamORnkh6xvsmaRTXVeRuB4ln1HbgY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminGetUserLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminUpdateUserLambdaVersionB7X9IVgBBiozogBWGRyYBpuSKnc5wVvaFBE9NE1pZs": {
+          "AdminUpdateUserLambdaVersion6eTOAYfQWFIf3y0phWrtVLKe1TyVZOHVEjr4c7i9w": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminUpdateUserLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminAddUserTransactionLambdaVersionIrA0WPWdapzfs7urPtRXBwi4nX8DOItx4Ur0mYiFFU": {
+          "AdminAddUserTransactionLambdaVersion9CwjrmmsIoOb7jKCPLj2z5Ryjkm7gleu3b6R1P00": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminAddUserTransactionLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminUpdateOrderLambdaVersion2tYQYKEbNznFlCOPbfSoMfxTyqMr2UF8FlJ0UbZI": {
+          "AdminUpdateOrderLambdaVersionXltgqi4ecWPkcEeJnZtcsKxYz6AJoCzJyYt17p34Oc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminUpdateOrderLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminCancelOrderLambdaVersionS04sM7Ynv878sxaOfhJP1N8R3MVvlDiMU5AjqWGk8": {
+          "AdminCancelOrderLambdaVersionbZKLHQ2oe3UUvf5Fq5cofKZ2kexld2Vadr5shjbRsU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminCancelOrderLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminGetOrdersToExportLambdaVersionJVUOZorO2MzZZQZMJ3A7r3hz7seUBvYcaoHZizojNXw": {
+          "AdminGetOrdersToExportLambdaVersionGjYEG5AmrbfUiOuUfPP24yl03FJhL7CWIw9ItoSWdPA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminGetOrdersToExportLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminExportOrdersToShipDayLambdaVersionjKRMk7iX0xqJvNIy31FyhMDoT2KFVTereY0KFPXgI": {
+          "AdminExportOrdersToShipDayLambdaVersionGzTVYTN3OAMXOGeMEYw2XxooDZCqHx8ikVWZ0GybUY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminExportOrdersToShipDayLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
-          "AdminGetAllUsersLambdaVersion5xEnihRLJAM1fKuhqvnRsh1hOj0emcAt8pC9Ug6eVxA": {
+          "AdminGetAllUsersLambdaVersionqp7AUoqJJ4JDmvWCNMGlj45uuydm4PWiErPz7fXY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AdminGetAllUsersLambdaFunction"
               },
-              "CodeSha256": "iIoXfqwGIyhnqpdD9tOS6VCTL7uhN6CbXKcAh4GBoD0="
+              "CodeSha256": "FD1K+FPAs1gxAUesO44jaeDn9wer/mzBXLrUaP5cIgQ="
             }
           },
           "ApiGatewayRestApi": {
@@ -1503,6 +1699,18 @@
                 "Ref": "ApiGatewayResourceUser"
               },
               "PathPart": "{username}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceUserMealpreference": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceUser"
+              },
+              "PathPart": "meal_preference",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -1597,6 +1805,33 @@
             "Properties": {
               "ParentId": {
                 "Ref": "ApiGatewayResourceUserBalance"
+              },
+              "PathPart": "{username}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceAddress": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "address",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceAddressUsernameVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceAddress"
               },
               "PathPart": "{username}",
               "RestApiId": {
@@ -2667,6 +2902,194 @@
                       {
                         "Fn::GetAtt": [
                           "UpdateUserLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": "1UnderscoreobLR6NkYPApiGatewayAuthorizer"
+          },
+          "ApiGatewayMethodUserMealpreferencePut": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "PUT",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceUserMealpreference"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "COGNITO_USER_POOLS",
+              "AuthorizerId": {
+                "Ref": "1UnderscoreobLR6NkYPApiGatewayAuthorizer"
+              },
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "UpdateMealPreferenceLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": "1UnderscoreobLR6NkYPApiGatewayAuthorizer"
+          },
+          "ApiGatewayMethodAddressUsernameVarGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAddressUsernameVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "COGNITO_USER_POOLS",
+              "AuthorizerId": {
+                "Ref": "1UnderscoreobLR6NkYPApiGatewayAuthorizer"
+              },
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetAddressLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": "1UnderscoreobLR6NkYPApiGatewayAuthorizer"
+          },
+          "ApiGatewayMethodAddressPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAddress"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "COGNITO_USER_POOLS",
+              "AuthorizerId": {
+                "Ref": "1UnderscoreobLR6NkYPApiGatewayAuthorizer"
+              },
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AddAddressLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": "1UnderscoreobLR6NkYPApiGatewayAuthorizer"
+          },
+          "ApiGatewayMethodAddressPut": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "PUT",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAddress"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "COGNITO_USER_POOLS",
+              "AuthorizerId": {
+                "Ref": "1UnderscoreobLR6NkYPApiGatewayAuthorizer"
+              },
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "UpdateAddressLambdaFunction",
                           "Arn"
                         ]
                       },
@@ -3939,7 +4362,7 @@
               ]
             }
           },
-          "ApiGatewayDeployment1642934781151": {
+          "ApiGatewayDeployment1644583465188": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -3964,6 +4387,10 @@
               "ApiGatewayMethodAdminUsersOptions",
               "ApiGatewayMethodUserUsernameVarGet",
               "ApiGatewayMethodUserPut",
+              "ApiGatewayMethodUserMealpreferencePut",
+              "ApiGatewayMethodAddressUsernameVarGet",
+              "ApiGatewayMethodAddressPost",
+              "ApiGatewayMethodAddressPut",
               "ApiGatewayMethodUserOrdersUsernameVarPageVarStatusVarGet",
               "ApiGatewayMethodUserTransactionsUsernameVarGet",
               "ApiGatewayMethodPaymentsOrderPost",
@@ -4035,6 +4462,154 @@
               "FunctionName": {
                 "Fn::GetAtt": [
                   "UpdateUserLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "UpdateMealPreferenceLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "UpdateMealPreferenceLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetAddressLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetAddressLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AddAddressLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AddAddressLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "UpdateAddressLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "UpdateAddressLambdaFunction",
                   "Arn"
                 ]
               },
@@ -5041,7 +5616,7 @@
           "CreateUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateUserLambdaVersion5Me7l8Q5FRUtE4bPHeDDIe4gG9ezXMK03X9HZum2J5E"
+              "Ref": "CreateUserLambdaVersion03m7RPBHyWDD2U7o7wNS1nZ01AxD25cSSt0H1fzKeQ"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-CreateUserLambdaFunctionQualifiedArn"
@@ -5050,7 +5625,7 @@
           "GetUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetUserLambdaVersion2HgXOxnSEY2kqIJ1hcQdBhzu65cPQRDEEMCEZMUzRY"
+              "Ref": "GetUserLambdaVersionDN69l5hcwFx0otjl46TqPkabD952dIokRCrIN6xTE"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-GetUserLambdaFunctionQualifiedArn"
@@ -5059,16 +5634,52 @@
           "UpdateUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UpdateUserLambdaVersionKInAIIBicc4sbRAtjLRZD75nX2cLhY7EUoblpyn0CVI"
+              "Ref": "UpdateUserLambdaVersion9SzuaqyOW9H7aTzeXbsfjG1ogyVsXwTemYwxAtPWkc"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-UpdateUserLambdaFunctionQualifiedArn"
             }
           },
+          "UpdateMealPreferenceLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "UpdateMealPreferenceLambdaVersionPQc3o6TB3a4MVW7rB33KmAOw1qBEOUZjmz5OrQaFJbQ"
+            },
+            "Export": {
+              "Name": "sls-yoyolunchbox-api-production-UpdateMealPreferenceLambdaFunctionQualifiedArn"
+            }
+          },
+          "GetAddressLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetAddressLambdaVersionHtO24wi8hQjVU8ZKutP1aYkJ6GmwxhQ7WzYizOrZcUU"
+            },
+            "Export": {
+              "Name": "sls-yoyolunchbox-api-production-GetAddressLambdaFunctionQualifiedArn"
+            }
+          },
+          "AddAddressLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AddAddressLambdaVersion9eRDijSRrsWfSKKvK9bJbQNjnWPcSOeXHoIRhprI"
+            },
+            "Export": {
+              "Name": "sls-yoyolunchbox-api-production-AddAddressLambdaFunctionQualifiedArn"
+            }
+          },
+          "UpdateAddressLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "UpdateAddressLambdaVersionuBrl80mimV2wot2HwLRlgLA2upxyrvM8I7usobL3kQ"
+            },
+            "Export": {
+              "Name": "sls-yoyolunchbox-api-production-UpdateAddressLambdaFunctionQualifiedArn"
+            }
+          },
           "GetUserOrdersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetUserOrdersLambdaVersions66QbM5aN1MahK2eX0vQD1SJ5TfRSjT6dbwE4rGY6Zo"
+              "Ref": "GetUserOrdersLambdaVersionHEjJSf4b3JNeyEIErW49eCqqoSuLSo0wScaEewJCUF0"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-GetUserOrdersLambdaFunctionQualifiedArn"
@@ -5077,7 +5688,7 @@
           "GetUserTransactionsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetUserTransactionsLambdaVersion75GYkalStdsftNEkczPFJ84q0GhhKW0r5zOgULNS0I"
+              "Ref": "GetUserTransactionsLambdaVersionexnQQqPyTwDN0mIVhHRYtGbZnFsUMD1EPCgDhP5M"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-GetUserTransactionsLambdaFunctionQualifiedArn"
@@ -5086,7 +5697,7 @@
           "CreatePaymentsOrderLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreatePaymentsOrderLambdaVersionZPnPAr6ozKFczVqrfT6dq05hTZiEb1ltzUBZ2raeRk"
+              "Ref": "CreatePaymentsOrderLambdaVersion7RVFFD0A0zwmYs4IcId1kmJD3o8iU7h814gsEWRg48"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-CreatePaymentsOrderLambdaFunctionQualifiedArn"
@@ -5095,7 +5706,7 @@
           "UpdateWalletBalanceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UpdateWalletBalanceLambdaVersionIH5UuPsWzEyWpFSjYp17uYkP4RUlkCq7FUXPTRPZM"
+              "Ref": "UpdateWalletBalanceLambdaVersionxlFH6fuBSIG2GjRFebSy9WFutJBGZWuGmy1qpqCx7I"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-UpdateWalletBalanceLambdaFunctionQualifiedArn"
@@ -5104,7 +5715,7 @@
           "GetUserWalletBalanceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetUserWalletBalanceLambdaVersionSy7LyWzwTr7ZadrvuEPPfcfot2UGUCBfnXg2lCqt8WM"
+              "Ref": "GetUserWalletBalanceLambdaVersionhnkvCsP0wotxJJcWfNzWppAVxyzApR4zQ3zwO4xuGho"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-GetUserWalletBalanceLambdaFunctionQualifiedArn"
@@ -5113,7 +5724,7 @@
           "GetMenuLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetMenuLambdaVersionmnq107fPmghzcy5xnIWojSs68seYPdFCB7bkZeMY"
+              "Ref": "GetMenuLambdaVersionsMgUFm4AaMXNvL47A2XhrpCq9iBRqf1D6BpdiE9WSE"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-GetMenuLambdaFunctionQualifiedArn"
@@ -5122,7 +5733,7 @@
           "GetFoodImageLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetFoodImageLambdaVersionRmBcXhY7hLIP5mnhQnJdJDGq3Fb23uQ4UTAETMILR4o"
+              "Ref": "GetFoodImageLambdaVersiond736bxZpcNlv04Ro7L7qjGFtZimvCagMDV55H9IV59I"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-GetFoodImageLambdaFunctionQualifiedArn"
@@ -5131,7 +5742,7 @@
           "PlaceOrderLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PlaceOrderLambdaVersionQzOvaCTBVvOXF9kqZnep2E7Bqv3IuIsUErxAbaTJeQk"
+              "Ref": "PlaceOrderLambdaVersionet0qHtmlhKkZ4QN36oAMz3OvfvZ2L6UOh7s4LtBWk"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-PlaceOrderLambdaFunctionQualifiedArn"
@@ -5140,7 +5751,7 @@
           "CancelOrderLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CancelOrderLambdaVersionlDgTTswPgRkM97XiAP0ijAsm2ATkIK81fgd62cGDo"
+              "Ref": "CancelOrderLambdaVersionLHYNtfnPgMu7x7eucnVPPTS779uELOyR51VGyMNQ"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-CancelOrderLambdaFunctionQualifiedArn"
@@ -5149,7 +5760,7 @@
           "AdminGetOrdersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminGetOrdersLambdaVersionjQFuJ3da1wOvs61fySYx3olQw2tSJxg4x33JP5VbQQ"
+              "Ref": "AdminGetOrdersLambdaVersionTeoyJlJ0PSzjt0koBPTFarhCd8yXNAEkMk83qPiSE"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminGetOrdersLambdaFunctionQualifiedArn"
@@ -5158,7 +5769,7 @@
           "AdminPlaceOrderLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminPlaceOrderLambdaVersiond1Jft4Q1g5uGJgJCRHQf0b5p35CmMObTz3VDt1bxfi4"
+              "Ref": "AdminPlaceOrderLambdaVersioniQcJZjCDMmzawlGsh11m2ZZpQMRHx9DfZuHZaYFug"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminPlaceOrderLambdaFunctionQualifiedArn"
@@ -5167,7 +5778,7 @@
           "AdminUpdateOrderStatusLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminUpdateOrderStatusLambdaVersionjDxgxyOP26BDAxlamYzU389uJ6UOSYEQDpASQ0a44c"
+              "Ref": "AdminUpdateOrderStatusLambdaVersionpQrQ3kTh7A1RoR2K1QRiBZBPFcPicqnCXjfUbH5vg"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminUpdateOrderStatusLambdaFunctionQualifiedArn"
@@ -5176,7 +5787,7 @@
           "AdminGetMenuLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminGetMenuLambdaVersion5eNl0xGr7ax8BTKbH4t0F8ShWPiBxcjuvlga9IA3Q"
+              "Ref": "AdminGetMenuLambdaVersionZdaw0HU2g7Hz4ZY7QVAnORS8JBz3r3sfxBH2IipX1GA"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminGetMenuLambdaFunctionQualifiedArn"
@@ -5185,7 +5796,7 @@
           "AdminGetTransactionsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminGetTransactionsLambdaVersionWpMLpi6LVCZXW8ziI2Ok3LhDDcxxOMxalc0YZ5jlLQ"
+              "Ref": "AdminGetTransactionsLambdaVersionw2wOQQ1kk7VxBtLZeSeNWxMRl20bMpi69ha1ffgVnw"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminGetTransactionsLambdaFunctionQualifiedArn"
@@ -5194,7 +5805,7 @@
           "AdminAddMenuLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminAddMenuLambdaVersion4SrmQQoDRe4Myn17Xn9IDrjsotmMIInQ2wSfKBXQ"
+              "Ref": "AdminAddMenuLambdaVersion6M6joDKXrRzpfUn6juP8ufsBqDpv7TD7IIJlZEiR3c"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminAddMenuLambdaFunctionQualifiedArn"
@@ -5203,7 +5814,7 @@
           "AdminEditMenuLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminEditMenuLambdaVersionzRBV3jj38PLr8WZ7NJKC4WE86xlPwF1zc3MXJjRpag"
+              "Ref": "AdminEditMenuLambdaVersion2Axm0v38ukW5WiYraO3F6GNcNDjX1JElxfuHCTOynPI"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminEditMenuLambdaFunctionQualifiedArn"
@@ -5212,7 +5823,7 @@
           "AdminDeleteMenuLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminDeleteMenuLambdaVersion6vnsNxzzxoKvAJEKZhwG1kZpm1whqR3FElafuj6Ls"
+              "Ref": "AdminDeleteMenuLambdaVersionCO3H36dUB28SzZ19bjSBWshsFLNTZsVsls5JWVnqA"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminDeleteMenuLambdaFunctionQualifiedArn"
@@ -5221,7 +5832,7 @@
           "AdminGetUserWalletBalanceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminGetUserWalletBalanceLambdaVersionelAn7yl1CFjv0vN4i3ZnRRMTa4uX6yxiwzOaLXxa8M"
+              "Ref": "AdminGetUserWalletBalanceLambdaVersionqBxm8VVPDS9Urj5q2o8W5tZmiydE0BgrKBmfGpI"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminGetUserWalletBalanceLambdaFunctionQualifiedArn"
@@ -5230,7 +5841,7 @@
           "AdminGetUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminGetUserLambdaVersionuQnV16rDtJJ1QUPdDCZoR5bc3AE9BR2E16yPMTatRM8"
+              "Ref": "AdminGetUserLambdaVersion4RPU42c1t7UamORnkh6xvsmaRTXVeRuB4ln1HbgY"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminGetUserLambdaFunctionQualifiedArn"
@@ -5239,7 +5850,7 @@
           "AdminUpdateUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminUpdateUserLambdaVersionB7X9IVgBBiozogBWGRyYBpuSKnc5wVvaFBE9NE1pZs"
+              "Ref": "AdminUpdateUserLambdaVersion6eTOAYfQWFIf3y0phWrtVLKe1TyVZOHVEjr4c7i9w"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminUpdateUserLambdaFunctionQualifiedArn"
@@ -5248,7 +5859,7 @@
           "AdminAddUserTransactionLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminAddUserTransactionLambdaVersionIrA0WPWdapzfs7urPtRXBwi4nX8DOItx4Ur0mYiFFU"
+              "Ref": "AdminAddUserTransactionLambdaVersion9CwjrmmsIoOb7jKCPLj2z5Ryjkm7gleu3b6R1P00"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminAddUserTransactionLambdaFunctionQualifiedArn"
@@ -5257,7 +5868,7 @@
           "AdminUpdateOrderLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminUpdateOrderLambdaVersion2tYQYKEbNznFlCOPbfSoMfxTyqMr2UF8FlJ0UbZI"
+              "Ref": "AdminUpdateOrderLambdaVersionXltgqi4ecWPkcEeJnZtcsKxYz6AJoCzJyYt17p34Oc"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminUpdateOrderLambdaFunctionQualifiedArn"
@@ -5266,7 +5877,7 @@
           "AdminCancelOrderLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminCancelOrderLambdaVersionS04sM7Ynv878sxaOfhJP1N8R3MVvlDiMU5AjqWGk8"
+              "Ref": "AdminCancelOrderLambdaVersionbZKLHQ2oe3UUvf5Fq5cofKZ2kexld2Vadr5shjbRsU"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminCancelOrderLambdaFunctionQualifiedArn"
@@ -5275,7 +5886,7 @@
           "AdminGetOrdersToExportLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminGetOrdersToExportLambdaVersionJVUOZorO2MzZZQZMJ3A7r3hz7seUBvYcaoHZizojNXw"
+              "Ref": "AdminGetOrdersToExportLambdaVersionGjYEG5AmrbfUiOuUfPP24yl03FJhL7CWIw9ItoSWdPA"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminGetOrdersToExportLambdaFunctionQualifiedArn"
@@ -5284,7 +5895,7 @@
           "AdminExportOrdersToShipDayLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminExportOrdersToShipDayLambdaVersionjKRMk7iX0xqJvNIy31FyhMDoT2KFVTereY0KFPXgI"
+              "Ref": "AdminExportOrdersToShipDayLambdaVersionGzTVYTN3OAMXOGeMEYw2XxooDZCqHx8ikVWZ0GybUY"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminExportOrdersToShipDayLambdaFunctionQualifiedArn"
@@ -5293,7 +5904,7 @@
           "AdminGetAllUsersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AdminGetAllUsersLambdaVersion5xEnihRLJAM1fKuhqvnRsh1hOj0emcAt8pC9Ug6eVxA"
+              "Ref": "AdminGetAllUsersLambdaVersionqp7AUoqJJ4JDmvWCNMGlj45uuydm4PWiErPz7fXY"
             },
             "Export": {
               "Name": "sls-yoyolunchbox-api-production-AdminGetAllUsersLambdaFunctionQualifiedArn"
@@ -5447,7 +6058,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "CreateUserLambdaVersion5Me7l8Q5FRUtE4bPHeDDIe4gG9ezXMK03X9HZum2J5E"
+        "versionLogicalId": "CreateUserLambdaVersion03m7RPBHyWDD2U7o7wNS1nZ01AxD25cSSt0H1fzKeQ"
       },
       "getUser": {
         "handler": "resources/users.getUser",
@@ -5481,7 +6092,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "GetUserLambdaVersion2HgXOxnSEY2kqIJ1hcQdBhzu65cPQRDEEMCEZMUzRY"
+        "versionLogicalId": "GetUserLambdaVersionDN69l5hcwFx0otjl46TqPkabD952dIokRCrIN6xTE"
       },
       "updateUser": {
         "handler": "resources/users.updateUser",
@@ -5515,7 +6126,143 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "UpdateUserLambdaVersionKInAIIBicc4sbRAtjLRZD75nX2cLhY7EUoblpyn0CVI"
+        "versionLogicalId": "UpdateUserLambdaVersion9SzuaqyOW9H7aTzeXbsfjG1ogyVsXwTemYwxAtPWkc"
+      },
+      "updateMealPreference": {
+        "handler": "resources/users.updateMealPreference",
+        "vpc": {
+          "securityGroupIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"UpdateMealPreferenceLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SecurityGroupIds\"]"
+          },
+          "subnetIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"UpdateMealPreferenceLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SubnetIds\"]"
+          }
+        },
+        "events": [
+          {
+            "http": {
+              "path": "user/meal_preference",
+              "method": "put",
+              "authorizer": {
+                "name": "1_obLR6NkYP",
+                "arn": "arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP",
+                "managedExternally": false,
+                "resultTtlInSeconds": 300,
+                "identitySource": "method.request.header.Authorization",
+                "claims": []
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "yoyolunchbox-api-production-updateMealPreference",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs12.x",
+        "versionLogicalId": "UpdateMealPreferenceLambdaVersionPQc3o6TB3a4MVW7rB33KmAOw1qBEOUZjmz5OrQaFJbQ"
+      },
+      "getAddress": {
+        "handler": "resources/address.get",
+        "vpc": {
+          "securityGroupIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"GetAddressLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SecurityGroupIds\"]"
+          },
+          "subnetIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"GetAddressLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SubnetIds\"]"
+          }
+        },
+        "events": [
+          {
+            "http": {
+              "path": "address/{username}",
+              "method": "get",
+              "authorizer": {
+                "name": "1_obLR6NkYP",
+                "arn": "arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP",
+                "managedExternally": false,
+                "resultTtlInSeconds": 300,
+                "identitySource": "method.request.header.Authorization",
+                "claims": []
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "yoyolunchbox-api-production-getAddress",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs12.x",
+        "versionLogicalId": "GetAddressLambdaVersionHtO24wi8hQjVU8ZKutP1aYkJ6GmwxhQ7WzYizOrZcUU"
+      },
+      "addAddress": {
+        "handler": "resources/address.add",
+        "vpc": {
+          "securityGroupIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AddAddressLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SecurityGroupIds\"]"
+          },
+          "subnetIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AddAddressLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SubnetIds\"]"
+          }
+        },
+        "events": [
+          {
+            "http": {
+              "path": "address",
+              "method": "post",
+              "authorizer": {
+                "name": "1_obLR6NkYP",
+                "arn": "arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP",
+                "managedExternally": false,
+                "resultTtlInSeconds": 300,
+                "identitySource": "method.request.header.Authorization",
+                "claims": []
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "yoyolunchbox-api-production-addAddress",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs12.x",
+        "versionLogicalId": "AddAddressLambdaVersion9eRDijSRrsWfSKKvK9bJbQNjnWPcSOeXHoIRhprI"
+      },
+      "updateAddress": {
+        "handler": "resources/address.update",
+        "vpc": {
+          "securityGroupIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"UpdateAddressLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SecurityGroupIds\"]"
+          },
+          "subnetIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"UpdateAddressLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SubnetIds\"]"
+          }
+        },
+        "events": [
+          {
+            "http": {
+              "path": "address",
+              "method": "put",
+              "authorizer": {
+                "name": "1_obLR6NkYP",
+                "arn": "arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP",
+                "managedExternally": false,
+                "resultTtlInSeconds": 300,
+                "identitySource": "method.request.header.Authorization",
+                "claims": []
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "yoyolunchbox-api-production-updateAddress",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs12.x",
+        "versionLogicalId": "UpdateAddressLambdaVersionuBrl80mimV2wot2HwLRlgLA2upxyrvM8I7usobL3kQ"
       },
       "getUserOrders": {
         "handler": "resources/users.getUserOrders",
@@ -5549,7 +6296,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "GetUserOrdersLambdaVersions66QbM5aN1MahK2eX0vQD1SJ5TfRSjT6dbwE4rGY6Zo"
+        "versionLogicalId": "GetUserOrdersLambdaVersionHEjJSf4b3JNeyEIErW49eCqqoSuLSo0wScaEewJCUF0"
       },
       "getUserTransactions": {
         "handler": "resources/users.getUserTransactions",
@@ -5583,7 +6330,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "GetUserTransactionsLambdaVersion75GYkalStdsftNEkczPFJ84q0GhhKW0r5zOgULNS0I"
+        "versionLogicalId": "GetUserTransactionsLambdaVersionexnQQqPyTwDN0mIVhHRYtGbZnFsUMD1EPCgDhP5M"
       },
       "createPaymentsOrder": {
         "handler": "resources/payments.createPaymentsOrder",
@@ -5610,7 +6357,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "CreatePaymentsOrderLambdaVersionZPnPAr6ozKFczVqrfT6dq05hTZiEb1ltzUBZ2raeRk"
+        "versionLogicalId": "CreatePaymentsOrderLambdaVersion7RVFFD0A0zwmYs4IcId1kmJD3o8iU7h814gsEWRg48"
       },
       "updateWalletBalance": {
         "handler": "resources/payments.updateWalletBalance",
@@ -5644,7 +6391,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "UpdateWalletBalanceLambdaVersionIH5UuPsWzEyWpFSjYp17uYkP4RUlkCq7FUXPTRPZM"
+        "versionLogicalId": "UpdateWalletBalanceLambdaVersionxlFH6fuBSIG2GjRFebSy9WFutJBGZWuGmy1qpqCx7I"
       },
       "getUserWalletBalance": {
         "handler": "resources/users.getUserWalletBalance",
@@ -5678,7 +6425,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "GetUserWalletBalanceLambdaVersionSy7LyWzwTr7ZadrvuEPPfcfot2UGUCBfnXg2lCqt8WM"
+        "versionLogicalId": "GetUserWalletBalanceLambdaVersionhnkvCsP0wotxJJcWfNzWppAVxyzApR4zQ3zwO4xuGho"
       },
       "getMenu": {
         "handler": "resources/menu.getMenu",
@@ -5704,7 +6451,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "GetMenuLambdaVersionmnq107fPmghzcy5xnIWojSs68seYPdFCB7bkZeMY"
+        "versionLogicalId": "GetMenuLambdaVersionsMgUFm4AaMXNvL47A2XhrpCq9iBRqf1D6BpdiE9WSE"
       },
       "getFoodImage": {
         "handler": "resources/food.getFoodImage",
@@ -5731,7 +6478,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GetFoodImageLambdaVersionRmBcXhY7hLIP5mnhQnJdJDGq3Fb23uQ4UTAETMILR4o"
+        "versionLogicalId": "GetFoodImageLambdaVersiond736bxZpcNlv04Ro7L7qjGFtZimvCagMDV55H9IV59I"
       },
       "placeOrder": {
         "handler": "resources/orders.placeOrder",
@@ -5765,7 +6512,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "PlaceOrderLambdaVersionQzOvaCTBVvOXF9kqZnep2E7Bqv3IuIsUErxAbaTJeQk"
+        "versionLogicalId": "PlaceOrderLambdaVersionet0qHtmlhKkZ4QN36oAMz3OvfvZ2L6UOh7s4LtBWk"
       },
       "cancelOrder": {
         "handler": "resources/orders.cancelOrder",
@@ -5799,7 +6546,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "CancelOrderLambdaVersionlDgTTswPgRkM97XiAP0ijAsm2ATkIK81fgd62cGDo"
+        "versionLogicalId": "CancelOrderLambdaVersionLHYNtfnPgMu7x7eucnVPPTS779uELOyR51VGyMNQ"
       },
       "adminGetOrders": {
         "handler": "resources/orders.getOrders",
@@ -5849,7 +6596,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminGetOrdersLambdaVersionjQFuJ3da1wOvs61fySYx3olQw2tSJxg4x33JP5VbQQ"
+        "versionLogicalId": "AdminGetOrdersLambdaVersionTeoyJlJ0PSzjt0koBPTFarhCd8yXNAEkMk83qPiSE"
       },
       "adminPlaceOrder": {
         "handler": "resources/orders.placeOrder",
@@ -5883,7 +6630,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminPlaceOrderLambdaVersiond1Jft4Q1g5uGJgJCRHQf0b5p35CmMObTz3VDt1bxfi4"
+        "versionLogicalId": "AdminPlaceOrderLambdaVersioniQcJZjCDMmzawlGsh11m2ZZpQMRHx9DfZuHZaYFug"
       },
       "adminUpdateOrderStatus": {
         "handler": "resources/orders.updateOrderStatus",
@@ -5933,7 +6680,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminUpdateOrderStatusLambdaVersionjDxgxyOP26BDAxlamYzU389uJ6UOSYEQDpASQ0a44c"
+        "versionLogicalId": "AdminUpdateOrderStatusLambdaVersionpQrQ3kTh7A1RoR2K1QRiBZBPFcPicqnCXjfUbH5vg"
       },
       "adminGetMenu": {
         "handler": "resources/menu.getMenu",
@@ -5983,7 +6730,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminGetMenuLambdaVersion5eNl0xGr7ax8BTKbH4t0F8ShWPiBxcjuvlga9IA3Q"
+        "versionLogicalId": "AdminGetMenuLambdaVersionZdaw0HU2g7Hz4ZY7QVAnORS8JBz3r3sfxBH2IipX1GA"
       },
       "adminGetTransactions": {
         "handler": "resources/payments.getTransactions",
@@ -6033,7 +6780,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminGetTransactionsLambdaVersionWpMLpi6LVCZXW8ziI2Ok3LhDDcxxOMxalc0YZ5jlLQ"
+        "versionLogicalId": "AdminGetTransactionsLambdaVersionw2wOQQ1kk7VxBtLZeSeNWxMRl20bMpi69ha1ffgVnw"
       },
       "adminAddMenu": {
         "handler": "resources/menu.addMenu",
@@ -6083,7 +6830,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminAddMenuLambdaVersion4SrmQQoDRe4Myn17Xn9IDrjsotmMIInQ2wSfKBXQ"
+        "versionLogicalId": "AdminAddMenuLambdaVersion6M6joDKXrRzpfUn6juP8ufsBqDpv7TD7IIJlZEiR3c"
       },
       "adminEditMenu": {
         "handler": "resources/menu.editMenu",
@@ -6133,7 +6880,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminEditMenuLambdaVersionzRBV3jj38PLr8WZ7NJKC4WE86xlPwF1zc3MXJjRpag"
+        "versionLogicalId": "AdminEditMenuLambdaVersion2Axm0v38ukW5WiYraO3F6GNcNDjX1JElxfuHCTOynPI"
       },
       "adminDeleteMenu": {
         "handler": "resources/menu.deleteMenu",
@@ -6183,7 +6930,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminDeleteMenuLambdaVersion6vnsNxzzxoKvAJEKZhwG1kZpm1whqR3FElafuj6Ls"
+        "versionLogicalId": "AdminDeleteMenuLambdaVersionCO3H36dUB28SzZ19bjSBWshsFLNTZsVsls5JWVnqA"
       },
       "adminGetUserWalletBalance": {
         "handler": "resources/users.getUserWalletBalance",
@@ -6233,7 +6980,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminGetUserWalletBalanceLambdaVersionelAn7yl1CFjv0vN4i3ZnRRMTa4uX6yxiwzOaLXxa8M"
+        "versionLogicalId": "AdminGetUserWalletBalanceLambdaVersionqBxm8VVPDS9Urj5q2o8W5tZmiydE0BgrKBmfGpI"
       },
       "adminGetUser": {
         "handler": "resources/users.getUser",
@@ -6286,7 +7033,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminGetUserLambdaVersionuQnV16rDtJJ1QUPdDCZoR5bc3AE9BR2E16yPMTatRM8"
+        "versionLogicalId": "AdminGetUserLambdaVersion4RPU42c1t7UamORnkh6xvsmaRTXVeRuB4ln1HbgY"
       },
       "adminUpdateUser": {
         "handler": "resources/users.adminUpdateUser",
@@ -6336,7 +7083,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminUpdateUserLambdaVersionB7X9IVgBBiozogBWGRyYBpuSKnc5wVvaFBE9NE1pZs"
+        "versionLogicalId": "AdminUpdateUserLambdaVersion6eTOAYfQWFIf3y0phWrtVLKe1TyVZOHVEjr4c7i9w"
       },
       "adminAddUserTransaction": {
         "handler": "resources/users.addTransaction",
@@ -6386,7 +7133,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminAddUserTransactionLambdaVersionIrA0WPWdapzfs7urPtRXBwi4nX8DOItx4Ur0mYiFFU"
+        "versionLogicalId": "AdminAddUserTransactionLambdaVersion9CwjrmmsIoOb7jKCPLj2z5Ryjkm7gleu3b6R1P00"
       },
       "adminUpdateOrder": {
         "handler": "resources/orders.updateOrder",
@@ -6439,7 +7186,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminUpdateOrderLambdaVersion2tYQYKEbNznFlCOPbfSoMfxTyqMr2UF8FlJ0UbZI"
+        "versionLogicalId": "AdminUpdateOrderLambdaVersionXltgqi4ecWPkcEeJnZtcsKxYz6AJoCzJyYt17p34Oc"
       },
       "adminCancelOrder": {
         "handler": "resources/orders.cancelOrder",
@@ -6473,7 +7220,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminCancelOrderLambdaVersionS04sM7Ynv878sxaOfhJP1N8R3MVvlDiMU5AjqWGk8"
+        "versionLogicalId": "AdminCancelOrderLambdaVersionbZKLHQ2oe3UUvf5Fq5cofKZ2kexld2Vadr5shjbRsU"
       },
       "adminGetOrdersToExport": {
         "handler": "resources/orders.getOrdersToExport",
@@ -6526,7 +7273,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminGetOrdersToExportLambdaVersionJVUOZorO2MzZZQZMJ3A7r3hz7seUBvYcaoHZizojNXw"
+        "versionLogicalId": "AdminGetOrdersToExportLambdaVersionGjYEG5AmrbfUiOuUfPP24yl03FJhL7CWIw9ItoSWdPA"
       },
       "adminExportOrdersToShipDay": {
         "handler": "resources/orders.exportToShipDay",
@@ -6569,7 +7316,7 @@
         "memory": 1024,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "AdminExportOrdersToShipDayLambdaVersionjKRMk7iX0xqJvNIy31FyhMDoT2KFVTereY0KFPXgI"
+        "versionLogicalId": "AdminExportOrdersToShipDayLambdaVersionGzTVYTN3OAMXOGeMEYw2XxooDZCqHx8ikVWZ0GybUY"
       },
       "adminGetAllUsers": {
         "handler": "resources/users.getAllUsers",
@@ -6619,7 +7366,7 @@
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs12.x",
-        "versionLogicalId": "AdminGetAllUsersLambdaVersion5xEnihRLJAM1fKuhqvnRsh1hOj0emcAt8pC9Ug6eVxA"
+        "versionLogicalId": "AdminGetAllUsersLambdaVersionqp7AUoqJJ4JDmvWCNMGlj45uuydm4PWiErPz7fXY"
       }
     },
     "configValidationMode": "warn",
@@ -6647,7 +7394,7 @@
     "artifact": "/Users/sri/yoyolunchbox-api/.serverless/yoyolunchbox-api.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/yoyolunchbox-api/production/1642934789698-2022-01-23T10:46:29.698Z",
+    "artifactDirectoryName": "serverless/yoyolunchbox-api/production/1644583471803-2022-02-11T12:44:31.803Z",
     "artifact": "yoyolunchbox-api.zip"
   }
 }

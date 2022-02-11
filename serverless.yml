@@ -67,6 +67,46 @@ functions:
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
 
+  updateMealPreference:
+    handler: resources/users.updateMealPreference
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /user/meal_preference
+          method: put
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  getAddress:
+    handler: resources/address.get
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /address/{username}
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  addAddress:
+    handler: resources/address.add
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /address
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
+  updateAddress:
+    handler: resources/address.update
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /address
+          method: put
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
   getUserOrders:
     handler: resources/users.getUserOrders
     vpc: ${self:custom.vpc}
