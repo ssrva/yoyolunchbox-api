@@ -246,7 +246,18 @@ module.exports.getUserTransactions = async (event) => {
 
 module.exports.getAllUsers = async (event) => {
   const query = `
-    SELECT * FROM users ORDER BY id DESC
+    SELECT users.id,
+           users.username,
+           users.name,
+           users.phone,
+           users.meal_preference,
+           users.created_on,
+           users.balance,
+           address.address,
+           address.coordinates
+    FROM users
+    LEFT JOIN address ON address.username = users.username
+    ORDER BY users.id DESC
   `
 
   try {
