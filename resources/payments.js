@@ -2,17 +2,22 @@ const axios = require("axios")
 const { siloDbClient, dbClient } = require("./database-client")
 var AWS = require('aws-sdk')
 
-getCashfreeCredentials = async () => {
+getCashfreeCredentials = async (environment) => {
   const client = new AWS.SecretsManager({
     region: "us-east-1"
   });
-  const secret = await client.getSecretValue({SecretId: "cashfree_credentials"}).promise();
-  return JSON.parse(secret.SecretString);
+  if (environment === "TEST") {
+    const secret = await client.getSecretValue({SecretId: "cashfree_credentials_development"}).promise();
+    return JSON.parse(secret.SecretString);
+  } else {
+    const secret = await client.getSecretValue({SecretId: "cashfree_credentials"}).promise();
+    return JSON.parse(secret.SecretString);
+  }
 }
 
 module.exports.createPaymentsOrder = async (event) => {
-  const { id, amount } = JSON.parse(event.body)
-  const cashFreeCredentials = await getCashfreeCredentials()
+  const { id, amount, environment } = JSON.parse(event.body)
+  const cashFreeCredentials = await getCashfreeCredentials(environment || "PROD")
 
   console.log(JSON.stringify(cashFreeCredentials))
 
@@ -21,7 +26,10 @@ module.exports.createPaymentsOrder = async (event) => {
     "x-client-id": cashFreeCredentials.cashfree_client_id,
     "x-client-secret": cashFreeCredentials.cashfree_secret,
   }
-  const endpoint = "https://api.cashfree.com/api/v2/cftoken/order"
+  let endpoint = "https://api.cashfree.com/api/v2/cftoken/order"
+  if (environment === "TEST") {
+    endpoint = "https://test.cashfree.com/api/v2/cftoken/order"
+  }
 
   try {
     const response = await axios.post(endpoint, {
