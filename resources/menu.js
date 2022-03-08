@@ -34,7 +34,8 @@ module.exports.getMenu = async (event) => {
             menu.description,
             menu.price,
             menu.image,
-            menu.food_type
+            menu.food_type,
+            menu.addon
       FROM menu
       WHERE date = ANY('{${dates}}')
       AND   food_type = ${foodTypeFilter}
@@ -61,14 +62,14 @@ module.exports.getMenu = async (event) => {
 }
 
 module.exports.addMenu = async (event) => {
-  const { date, title, description, image, price, type, food_type } = JSON.parse(event.body)
+  const { date, title, description, image, price, type, food_type, addon } = JSON.parse(event.body)
   const query = `
     INSERT INTO
     menu (
-      date, title, description, image, price, type, food_type
+      date, title, description, image, price, type, food_type, addon
     )
     VALUES (
-      '${date}', '${title}', '${description}', '${image}', ${price}, '${type}', '${food_type}'
+      '${date}', '${title}', '${description}', '${image}', ${price}, '${type}', '${food_type}', '${addon}'
     )
   `
 
@@ -94,7 +95,7 @@ module.exports.addMenu = async (event) => {
 }
 
 module.exports.editMenu = async (event) => {
-  const { id, title, description, image, food_type, type, date } = JSON.parse(event.body)
+  const { id, title, description, image, food_type, type, date, addon } = JSON.parse(event.body)
   const query = `
     UPDATE menu SET
     title = '${title}',
@@ -102,7 +103,8 @@ module.exports.editMenu = async (event) => {
     image = '${image}',
     food_type = '${food_type}',
     type = '${type}',
-    date = '${date}'
+    date = '${date}',
+    addon = '${addon}'
     WHERE id = ${id}
   `
 
