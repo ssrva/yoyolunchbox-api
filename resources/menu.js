@@ -62,7 +62,10 @@ module.exports.getMenu = async (event) => {
 }
 
 module.exports.addMenu = async (event) => {
-  const { date, title, description, image, price, type, food_type, addon } = JSON.parse(event.body)
+  let { date, title, description, image, price, type, food_type, addon } = JSON.parse(event.body)
+  if (addon == undefined || addon == null) {
+    addon = false
+  }
   const query = `
     INSERT INTO
     menu (
