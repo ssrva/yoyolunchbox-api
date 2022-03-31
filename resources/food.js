@@ -9,23 +9,19 @@ module.exports.getFoodImage = async (event) => {
   const key = event.pathParameters.key
   var params = {
     "Bucket": "yoyo-food-images",
-    "Key": key
+    "Key": decodeURI(key)
   }
+  console.log(params)
   try {
     const result = await retry(
       async (bail) => {
-        const res = await s3.getObject(params).promise()
-        if (403 === res.status) {
-          // don't retry upon 403
-          bail(new Error('Unauthorized'));
-          return;
-        } else if (200 !== res.status) {
-          bail(new Error('some other error'))
-          console.log(res)
-          return;
+        try {
+          const res = await s3.getObject(params).promise()
+          return res
+        } catch (e) {
+          console.log(e)
+          bail(new Error('Error downloading file from S3'));
         }
-    
-        return res
       },
       {
         retries: 3,
