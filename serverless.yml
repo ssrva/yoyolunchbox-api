@@ -67,6 +67,16 @@ functions:
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
 
+  updateUserExpoPushKey:
+    handler: resources/users.updateUserExpoPushkey
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /user/expo_push_key
+          method: patch
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+
   updateMealPreference:
     handler: resources/users.updateMealPreference
     vpc: ${self:custom.vpc}

@@ -97,6 +97,28 @@ module.exports.addTransaction = async (event) => {
   }
 }
 
+module.exports.updateUserExpoPushkey = async (event) => {
+  const { username, expo_push_key } = JSON.parse(event.body)
+  const query = `
+    UPDATE users
+    SET expo_push_key = $1
+    WHERE username = '${username}'
+  `
+  try {
+    await client.query(query, [expo_push_key])
+    return {
+      statusCode: 200,
+      body: "User updated successfully"
+    }
+  } catch(e) {
+    console.error(e.message)
+    return {
+      statusCode: 400,
+      body: e.message
+    }
+  }
+}
+
 module.exports.updateUser = async (event) => {
   const { username, address, meal_preference, coordinates } = JSON.parse(event.body)
   const query = `
