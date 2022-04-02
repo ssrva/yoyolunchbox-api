@@ -274,6 +274,7 @@ module.exports.getAllUsers = async (event) => {
            users.phone,
            users.meal_preference,
            users.created_on,
+           users.expo_push_key,
            users.balance,
            address.address,
            address.coordinates
