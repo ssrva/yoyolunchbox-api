@@ -396,3 +396,14 @@ functions:
           method: get
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminSendNotifications:
+    handler: resources/notifications.sendNotifications
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/notifications
+          cors: true
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
