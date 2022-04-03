@@ -1,29 +1,24 @@
 const { Expo } = require("expo-server-sdk")
+const axios = require('axios')
 
 module.exports.sendNotifications = async (event) => {
-  const { messages } = JSON.parse(event.body)
-  const expo = new Expo();
-  const chunks = expo.chunkPushNotifications(messages);
-  // Send the chunks to the Expo push notification service. There are
-  // different strategies you could use. A simple one is to send one chunk at a
-  // time, which nicely spreads the load out over time:
-  for (let chunk of chunks) {
-    try {
-      let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-      console.log(ticketChunk);
-      // NOTE: If a ticket contains an error code in ticket.details.error, you
-      // must handle it appropriately. The error codes are listed in the Expo
-      // documentation:
-      // https://docs.expo.io/push-notifications/sending-notifications/#individual-errors
-    } catch (error) {
-      console.error(error)
-      return {
-        statusCode: 400,
-        headers: {
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: "failed"
+  const { message } = JSON.parse(event.body)
+  console.log(message)
+  try {
+    const response = await axios.post("https://exp.host/--/api/v2/push/send", message, {
+      headers: {
+        "Content-Type": "application/json"
       }
+    })
+  } catch (error) {
+    console.log("Errored out")
+    console.log(JSON.stringify(error.response.data))
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: "failed"
     }
   }
   return {
