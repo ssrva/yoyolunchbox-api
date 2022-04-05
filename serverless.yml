@@ -55,7 +55,7 @@ functions:
           path: /user/{username}
           method: get
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   updateUser:
     handler: resources/users.updateUser
@@ -65,7 +65,7 @@ functions:
           path: /user
           method: put
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   updateUserExpoPushKey:
     handler: resources/users.updateUserExpoPushkey
@@ -75,7 +75,7 @@ functions:
           path: /user/expo_push_key
           method: patch
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   updateMealPreference:
     handler: resources/users.updateMealPreference
@@ -85,7 +85,7 @@ functions:
           path: /user/meal_preference
           method: put
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   getAddress:
     handler: resources/address.get
@@ -95,7 +95,7 @@ functions:
           path: /address/{username}
           method: get
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   addAddress:
     handler: resources/address.add
@@ -105,7 +105,7 @@ functions:
           path: /address
           method: post
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   updateAddress:
     handler: resources/address.update
@@ -115,7 +115,7 @@ functions:
           path: /address
           method: put
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   getUserOrders:
     handler: resources/users.getUserOrders
@@ -125,7 +125,7 @@ functions:
           path: /user/orders/{username}/{page}/{status}
           method: get
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
   
   getUserTransactions:
     handler: resources/users.getUserTransactions
@@ -135,7 +135,7 @@ functions:
           path: /user/transactions/{username}
           method: get
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   createPaymentsOrder:
     handler: resources/payments.createPaymentsOrder
@@ -144,7 +144,7 @@ functions:
           path: /payments/order
           method: post
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   updateWalletBalance:
     handler: resources/payments.updateWalletBalance
@@ -154,7 +154,7 @@ functions:
           path: /payments/user/wallet
           method: post
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   getUserWalletBalance:
     handler: resources/users.getUserWalletBalance
@@ -164,7 +164,7 @@ functions:
           path: /user/balance/{username}
           method: get
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   getMenu:
     handler: resources/menu.getMenu
@@ -176,12 +176,13 @@ functions:
 
   getFoodImage:
     handler: resources/food.getFoodImage
+    vpc: ${self:custom.vpc}
     events:
       - http:
           path: /food/image/{key}
           method: get
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   placeOrder:
     handler: resources/orders.placeOrder
@@ -191,7 +192,7 @@ functions:
           path: /orders
           method: post
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   cancelOrder:
     handler: resources/orders.cancelOrder
@@ -201,7 +202,7 @@ functions:
           path: /orders
           method: delete
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_obLR6NkYP
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
   adminGetOrders:
     handler: resources/orders.getOrders
@@ -399,7 +400,6 @@ functions:
 
   adminSendNotifications:
     handler: resources/notifications.sendNotifications
-    vpc: ${self:custom.vpc}
     events:
       - http:
           path: /admin/notifications
