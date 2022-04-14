@@ -276,6 +276,7 @@ module.exports.getAllUsers = async (event) => {
            users.created_on,
            users.expo_push_key,
            users.balance,
+           address.id as address_id,
            address.address,
            address.coordinates
     FROM users
@@ -305,16 +306,14 @@ module.exports.getAllUsers = async (event) => {
 }
 
 module.exports.adminUpdateUser = async (event) => {
-  const { username, address, meal_preference, coordinates } = JSON.parse(event.body)
+  const { username, meal_preference } = JSON.parse(event.body)
   const query = `
     UPDATE users
-    SET address = $1,
-        meal_preference = $2,
-        coordinates = '${JSON.stringify(coordinates)}'::jsonb
+    SET meal_preference = $1
     WHERE username = '${username}'
   `
   try {
-    await client.query(query, [address, meal_preference])
+    await client.query(query, [meal_preference])
     return {
       statusCode: 200,
       headers: {

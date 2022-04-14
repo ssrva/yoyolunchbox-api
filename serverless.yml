@@ -318,10 +318,40 @@ functions:
           cors: true
           method: get
           authorizer:
-            type: COGNITO_USER_POOLS
-            scopes:
-              - https://baqg6112pd.execute-api.us-east-1.amazonaws.com/all.all
-            authorizerId: lmomtp
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminGetAddress:
+    handler: resources/address.get
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/address/{username}
+          cors: true
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminUpdateAddress:
+    handler: resources/address.update
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/address
+          cors: true
+          method: put
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  adminAddAddress:
+    handler: resources/address.add
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/address
+          cors: true
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
 
   adminUpdateUser:
     handler: resources/users.adminUpdateUser

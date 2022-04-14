@@ -11,12 +11,18 @@ module.exports.get = async (event) => {
     const result = await client.query(query)
     return {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
       body: JSON.stringify(result.rows)
     }
   } catch(e) {
     console.error(e.message)
     return {
       statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
       body: e.message
     }
   }
@@ -33,12 +39,18 @@ module.exports.add = async (event) => {
     await client.query(query)
     return {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
       body: "Address added successfully"
     }
   } catch(e) {
     console.error(e.message)
     return {
       statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
       body: e.message
     }
   }
@@ -57,12 +69,18 @@ module.exports.update = async (event) => {
     await client.query(query)
     return {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
       body: "Address updated successfully"
     }
   } catch(e) {
     console.error(e.message)
     return {
       statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
       body: e.message
     }
   }
