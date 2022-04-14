@@ -13,6 +13,7 @@
         "aws-sdk": "^2.1004.0",
         "axios": "^0.21.1",
         "expo-server-sdk": "^3.6.0",
+        "memcache-plus": "^0.2.22",
         "pg": "^8.7.1"
     },
     "devDependencies": {

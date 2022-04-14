@@ -3,16 +3,25 @@ const axios = require('axios')
 
 module.exports.sendNotifications = async (event) => {
   const { message } = JSON.parse(event.body)
-  console.log(message)
   try {
-    const response = await axios.post("https://exp.host/--/api/v2/push/send", message, {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
+    const toSend = [];
+    for (var i = 0; i < message.to.length; i += 99) {
+        const newMessage = Object.assign({}, message);
+        newMessage.to = message.to.slice(i, i + 99);
+        toSend.push(newMessage);
+    }
+    console.log(toSend)
+    for (var i = 0; i < toSend.length; i++) {
+      const response = await axios.post("https://exp.host/--/api/v2/push/send", toSend[i], {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      console.log("Sending " + JSON.stringify(toSend[i]))
+    }
   } catch (error) {
     console.log("Errored out")
-    console.log(JSON.stringify(error.response.data))
+    console.error(error)
     return {
       statusCode: 400,
       headers: {

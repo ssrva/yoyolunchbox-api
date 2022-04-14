@@ -176,13 +176,20 @@ functions:
 
   getFoodImage:
     handler: resources/food.getFoodImage
-    vpc: ${self:custom.vpc}
     events:
       - http:
           path: /food/image/{key}
           method: get
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
+
+  testCacheMethod:
+    handler: resources/food.testCache
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /test/{key}
+          method: get
 
   placeOrder:
     handler: resources/orders.placeOrder
