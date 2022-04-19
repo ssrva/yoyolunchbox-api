@@ -32,7 +32,19 @@ module.exports.createUser = async (event) => {
 module.exports.getUser = async (event) => {
   const username = event.pathParameters.username
   const query = `
-    SELECT * FROM users WHERE username = '${username}'
+    SELECT users.id,
+           users.username,
+           users.phone,
+           users.created_on,
+           users.name,
+           users.balance,
+           users.meal_preference,
+           users.expo_push_key,
+           address.address,
+           address.coordinates
+    FROM users
+    INNER JOIN address ON address.username = users.username
+    WHERE users.username = '${username}'
   `
   try {
     const response = await client.query(query)

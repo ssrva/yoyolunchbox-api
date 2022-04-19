@@ -312,11 +312,17 @@ module.exports.exportToShipDay = async (event) => {
   if (failed) {
     return {
       statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
       body: JSON.stringify(response),
     }
   }
   return {
     statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
     body: JSON.stringify(response)
   }
 }
