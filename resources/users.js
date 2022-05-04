@@ -181,6 +181,34 @@ module.exports.getUserOrders = async (event) => {
   const status = event.pathParameters.status
   const username = event.pathParameters.username
   const page = event.pathParameters.page
+  const todayDate = new Date().toISOString().split("T")[0]
+  // This is a temp hack to mark previous upcoming orders (orders before today
+  // which are marked as upcoming) to delivered automatically whenever the user
+  // tries to get delivered orders. This is because we don't have a system in place
+  // to update the order to delivered.
+  if (status == 'delivered') {
+    const updateStatusQuery = `
+      UPDATE orders
+      SET status = 'delivered'
+      WHERE id IN (
+        SELECT orders.id
+        FROM orders
+        INNER JOIN menu on orders.menu_id = menu.id
+        WHERE username = '${username}'
+        AND menu.date < '${todayDate}'
+        AND orders.status = 'upcoming'
+      )
+    `
+    try {
+      await client.query(updateStatusQuery)
+    } catch(e) {
+      console.error(e.message)
+      return {
+        statusCode: 400,
+        body: e.message
+      }
+    }
+  }
   const query = `
     SELECT orders.id,  
            orders.quantity,
