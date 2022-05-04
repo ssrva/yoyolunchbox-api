@@ -318,6 +318,19 @@ functions:
           cors: true
           method: get
           authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
+  # internal endpoints are used for calling other api's from within an api. This fetches the cognito
+  # access token for a user and uses that access token to authorize.
+  internalAdminGetUser:
+    handler: resources/users.getUser
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /internal/admin/user/{username}
+          cors: true
+          method: get
+          authorizer:
             type: COGNITO_USER_POOLS
             scopes:
               - https://baqg6112pd.execute-api.us-east-1.amazonaws.com/all.all

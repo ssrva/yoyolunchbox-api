@@ -33,7 +33,7 @@ module.exports.exportOrder = async (order) => {
 }
 
 module.exports.getUser = async (accessToken, username) => {
-  const response = await axios.get(`${host}/admin/user/${username}`, {
+  const response = await axios.get(`${host}/internal/admin/user/${username}`, {
     headers: {
       "Authorization": accessToken
     }
