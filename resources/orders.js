@@ -8,7 +8,7 @@ module.exports.placeOrder = async (event) => {
   const client = siloDbClient();
   // each order is expected to have the fields
   // quantity, menu_id.
-  const { username, charges, orders, admin_placed } = JSON.parse(event.body)
+  const { username, charges, orders, admin_placed, subscription_id } = JSON.parse(event.body)
 
   const usernames = Array(orders.length).fill(`'${username}'`)
   const adminPlacedOrder = Array(orders.length).fill(admin_placed ? admin_placed : false)
@@ -45,6 +45,19 @@ module.exports.placeOrder = async (event) => {
   try {
     await client.query("BEGIN")
     const response = await client.query(placeOrderQuery)
+    const createLinkedOrders = `
+      INSERT INTO
+      linked_orders (username, orders, total_value, item_value, delivery_value, subscription_id)
+      VALUES (
+        '${username}',
+        '{${response.rows.map(row => row.id).join(",")}}',
+        ${itemTotal + otherCharges},
+        ${itemTotal},
+        ${otherCharges},
+        ${subscription_id ? subscription_id : "NULL"}
+      )
+      RETURNING id
+    `
     const addTransactionQuery = `
       INSERT INTO
       transactions (username, amount, description)
@@ -54,6 +67,21 @@ module.exports.placeOrder = async (event) => {
         'Order id #${response.rows[0].id}'
       )
     `
+    if (subscription_id) {
+      const updateSubscription = `
+        UPDATE subscriptions
+        SET free_deliveries_left = subscriptions.free_deliveries_left - 1
+        WHERE id = ${subscription_id}
+      `
+      await client.query(updateSubscription)
+    }
+    const linkedOrder = await client.query(createLinkedOrders)
+    const updateOrdersWithLinkedOrderId = `
+      UPDATE orders
+      SET linked_order_id = ${linkedOrder.rows[0].id}
+      WHERE id in (${response.rows.map(row => row.id).join(",")})
+    `
+    await client.query(updateOrdersWithLinkedOrderId)
     await client.query(addTransactionQuery)
     await client.query(updateBalanceQuery)
     await client.query("COMMIT")
@@ -117,6 +145,7 @@ module.exports.cancelOrder = async (event) => {
     await client.query(cancelOrderQuery)
     await client.query(updateBalanceQuery)
     await client.query(addTransactionQuery)
+    await refundDeliveryCharge(client, username, order_id)
     await client.query("COMMIT")
     await client.end()
     return {
@@ -137,6 +166,83 @@ module.exports.cancelOrder = async (event) => {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'DELETE'
+      }
+    }
+  }
+}
+
+/**
+ * Here is what we are doing 
+ * 1. Get the linked order id
+ * 2. Check if there are any other item in this order which is not cancelled.
+ * 3. If there is such an order, then we should not refund the delivery.
+ * 4. If there is no such order, then we should refund delivery charge.
+ *    - Get the subscription id of that linked order.
+ *    - Get the active subscription of the user. Increase free delivery for active subscription or
+ *      subscription id from previous step.
+ *    
+ *    - If the order was not a subscription order, then refund delivery charge to user wallet.
+ */
+refundDeliveryCharge = async (client, username, order_id) => {
+  const linkedOrderQuery = `SELECT linked_order_id FROM orders WHERE id = ${order_id}`
+  const linkedOrderResponse = await client.query(linkedOrderQuery)
+  const linkedOrderId = linkedOrderResponse.rows[0].linked_order_id
+  if (linkedOrderId) {
+    const nonCancelledOrdersQuery = `
+      SELECT id FROM orders
+      WHERE linked_order_id = ${linkedOrderId}
+      AND status != 'cancelled'
+      AND id != ${order_id}
+    `
+    const nonCancelledOrdersResponse = await client.query(nonCancelledOrdersQuery)
+    if (nonCancelledOrdersResponse.rowCount == 0) {
+      const subscriptionIdQuery = `SELECT subscription_id FROM linked_orders WHERE id = ${linkedOrderId}`
+      const subscriptionIdResponse = await client.query(subscriptionIdQuery)
+      let subscriptionId = subscriptionIdResponse.rows[0].subscription_id
+      /**
+       * If the order was made with a subscription, we simply increment the free delivery
+       * count for the subscription.
+       * - We try to get the current active subscription of the customer
+       * - If there is one, we update the free delivery count for it
+       * - Otherwise we update the free delivery count for the subscription using which
+       *   the order was made. (This is just a best effort, the subscription could have crossed the validity date)
+       */
+      if (subscriptionId) {
+        const todayDate = new Date().toISOString().substring(0,10);
+        const activeSubscriptionQuery = `
+          SELECT id
+          FROM   subscriptions
+          WHERE  username = '${username}'
+          AND    end_date >= '${todayDate}'
+          AND    free_deliveries_left > 0
+        `
+        const activeSubscriptionResponse = await client.query(activeSubscriptionQuery)
+        if (activeSubscriptionResponse.rowCount > 0) {
+          subscriptionId = activeSubscriptionResponse.rows[0].id
+        }
+        const updateSubscriptionFreeDeliveryQuery = `
+          UPDATE subscriptions
+          SET free_deliveries_left = subscriptions.free_deliveries_left + 1
+          WHERE id = ${subscriptionId}
+        `
+        await client.query(updateSubscriptionFreeDeliveryQuery)
+      } else {
+        const updateBalanceQuery = `
+          UPDATE users
+          SET balance = 40 + users.balance
+          WHERE username = '${username}'
+        `
+        const addTransactionQuery = `
+          INSERT INTO
+          transactions (username, amount, description)
+          VALUES (
+            '${username}',
+            40,
+            'Delivery charge refund for cancelling order ${order_id}'
+          )
+        `
+        await client.query(updateBalanceQuery)
+        await client.query(addTransactionQuery)
       }
     }
   }

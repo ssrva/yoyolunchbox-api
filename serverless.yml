@@ -211,6 +211,26 @@ functions:
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
+  createSubscription:
+    handler: resources/subscriptions.createSubscription
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /subscription
+          method: post
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
+
+  getSubscription:
+    handler: resources/subscriptions.getActiveSubscription
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /subscription/{username}
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
+
   adminGetOrders:
     handler: resources/orders.getOrders
     vpc: ${self:custom.vpc}
