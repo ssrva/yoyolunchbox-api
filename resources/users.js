@@ -8,7 +8,7 @@ module.exports.createUser = async (event) => {
   const query = `
     INSERT INTO
     users (username, name, phone, balance)
-    VALUES ('${username}', '${userAttributes.name}', ${userAttributes.phone_number}, 100)
+    VALUES ('${username}', '${userAttributes.name}', ${userAttributes.phone_number}, 50)
   `
 
   const addPromotionalBalance = `
@@ -16,7 +16,7 @@ module.exports.createUser = async (event) => {
     transactions (username, amount, description)
     VALUES (
       '${username}',
-      100,
+      50,
       'New user promotional balance'
     )
   `
