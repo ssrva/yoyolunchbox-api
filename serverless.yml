@@ -231,6 +231,17 @@ functions:
           authorizer:
             arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Ha8qscK7Y
 
+  adminGetSubscription:
+    handler: resources/subscriptions.getActiveSubscription
+    vpc: ${self:custom.vpc}
+    events:
+      - http:
+          path: /admin/subscription/{username}/{end_date}
+          cors: true
+          method: get
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:321082332978:userpool/us-east-1_Z2Cc2hIvX
+
   adminGetOrders:
     handler: resources/orders.getOrders
     vpc: ${self:custom.vpc}

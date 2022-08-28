@@ -4,13 +4,14 @@ const client = dbClient()
 
 module.exports.getActiveSubscription = async (event) => {
   const username = event.pathParameters.username
-  const todayDate = new Date().toISOString().substring(0,10);
+  let endDate = event.pathParameters.end_date
+  endDate = endDate || new Date().toISOString().substring(0,10);
 
   const activeSubscriptionQuery = `
     SELECT id, plan, start_date, end_date, free_deliveries_left
     FROM   subscriptions
     WHERE  username = '${username}'
-    AND    end_date >= '${todayDate}'
+    AND    end_date >= '${endDate}'
     AND    free_deliveries_left > 0
   `
 

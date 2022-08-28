@@ -77,10 +77,10 @@ module.exports.updateWalletBalance = async(event) => {
   `
   let eligibleForCashback = false
   let cashback = 0
-  if(parseInt(amount) >= 3000) {
-    cashback = parseInt(amount) * 0.05
-    eligibleForCashback = true
-  }
+  // if(parseInt(amount) >= 3000) {
+  //   cashback = parseInt(amount) * 0.05
+  //   eligibleForCashback = true
+  // }
   const cashbackQuery = `
     INSERT INTO
     transactions (username, amount, description)
